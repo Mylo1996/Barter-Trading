@@ -26,7 +26,9 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
         buttonBicycles = findViewById(R.id.buttonBicycles);
 
         buttonGadgets.setOnClickListener(this);
-
+        buttonClothes.setOnClickListener(this);
+        buttonTools.setOnClickListener(this);
+        buttonBicycles.setOnClickListener(this);
 
     }
 
@@ -34,6 +36,12 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         if(v == buttonGadgets){
             startActivity(new Intent(getApplicationContext(),ListItemsActivity.class));
+        }else if(v == buttonClothes){
+
+        }else if(v == buttonTools){
+
+        }else if(v == buttonBicycles){
+
         }
     }
 }

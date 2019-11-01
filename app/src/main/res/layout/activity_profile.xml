@@ -31,7 +31,7 @@
             android:id="@+id/buttonUploadImage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Upload Image"
+            android:text="Upload Profile Image"
             android:textSize="20sp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,22 +66,35 @@
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/buttonOtherUser"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Other User" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center|center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp">
 
         <Button
             android:id="@+id/buttonLogout"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="80dp"
             android:text="Logout"
             android:textSize="20sp" />
 
+        <Button
+            android:layout_marginLeft="50dp"
+            android:id="@+id/buttonAddNewItem"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:text="Add New Item"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
     </LinearLayout>
 
+    </LinearLayout>
 
 
 </RelativeLayout>

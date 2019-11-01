@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -55,11 +54,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private RatingBar ratingBar;
     private Button buttonLogout;
 
-
-
-    private Button buttonOtherUser;
-
-
+    private Button buttonAddNewItem;
 
     private DatabaseReference userDatabaseReference;
     private StorageReference userImageStorageReference;
@@ -93,26 +88,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonLogout = findViewById(R.id.buttonLogout);
 
+        buttonAddNewItem = findViewById(R.id.buttonAddNewItem);
+
 
 
         /*//////////////////////////////////////
                     TEST
         //////////////////////////////////////*/
 
-        buttonOtherUser = findViewById(R.id.buttonOtherUser);
-        buttonOtherUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SelectedProfileActivity.class);
-                intent.putExtra("USER_ID", "Zo5cpT7ed6WkgRbRF4rntlX9qb52");
-                startActivity(intent);
-            }
-        });
-
+        /*
+        Intent intent = new Intent(getBaseContext(), SelectedProfileActivity.class);
+        intent.putExtra("USER_ID", "Zo5cpT7ed6WkgRbRF4rntlX9qb52");
+        startActivity(intent);
+*/
         ////////////////////////////////////////
 
 
-
+        buttonAddNewItem.setOnClickListener(this);
         buttonLogout.setOnClickListener(this);
         imageViewProfile.setOnClickListener(this);
         buttonUploadImage.setOnClickListener(this);
@@ -176,6 +168,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }else if(v == imageViewProfile){
             openFileChooser();
+        }else if(v == buttonAddNewItem){
+            startActivity(new Intent(getApplicationContext(),AddNewItemActivity.class));
         }
 
     }
