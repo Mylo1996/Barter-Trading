@@ -18,23 +18,25 @@
             android:id="@+id/textViewWelcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Welcome"
             android:textAlignment="center"
-            android:textSize="30sp"
-            android:text="Welcome"/>
+            android:textSize="50sp" />
 
         <Button
-            android:layout_margin="15dp"
             android:id="@+id/buttonCategories"
-            android:text="Categories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Categories"
+            android:textSize="30sp" />
 
         <Button
-            android:layout_margin="15dp"
             android:id="@+id/buttonUserProfile"
-            android:text="User Profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="User Profile"
+            android:textSize="30sp" />
 
 
 

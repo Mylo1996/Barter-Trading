@@ -22,16 +22,17 @@
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progressBarImageUpload"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/buttonUploadImage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Upload Image" />
+            android:text="Upload Image"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textViewName"
@@ -40,33 +41,44 @@
             android:textAlignment="center"
             android:textSize="30sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center|center_vertical"
-        android:orientation="horizontal">
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numStars="5"
-            android:stepSize="1" />
-        <TextView
-            android:id="@+id/textViewRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0/5"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+            android:layout_centerInParent="true"
+            android:gravity="center|center_vertical"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="0.1" />
+
+            <TextView
+                android:id="@+id/textViewRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0/5.0"
+                android:textAlignment="center"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/buttonOtherUser"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Other User" />
 
         <Button
             android:id="@+id/buttonLogout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Logout" />
+            android:layout_marginTop="80dp"
+            android:text="Logout"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

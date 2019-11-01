@@ -29,6 +29,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if(v == buttonCategories){
             //Start CategoriesActivity
+            startActivity(new Intent(getApplicationContext(),CategoriesActivity.class));
         }else if(v == buttonUserProfile){
             startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
         }

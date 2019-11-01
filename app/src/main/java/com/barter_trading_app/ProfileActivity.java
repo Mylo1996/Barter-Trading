@@ -36,6 +36,8 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.Map;
+
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -50,8 +52,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private TextView textViewName;
     private TextView textViewRating;
-    private Button buttonLogout;
     private RatingBar ratingBar;
+    private Button buttonLogout;
+
+
+
+    private Button buttonOtherUser;
+
+
 
     private DatabaseReference userDatabaseReference;
     private StorageReference userImageStorageReference;
@@ -85,19 +93,31 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonLogout = findViewById(R.id.buttonLogout);
 
+
+
+        /*//////////////////////////////////////
+                    TEST
+        //////////////////////////////////////*/
+
+        buttonOtherUser = findViewById(R.id.buttonOtherUser);
+        buttonOtherUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), SelectedProfileActivity.class);
+                intent.putExtra("USER_ID", "Zo5cpT7ed6WkgRbRF4rntlX9qb52");
+                startActivity(intent);
+            }
+        });
+
+        ////////////////////////////////////////
+
+
+
         buttonLogout.setOnClickListener(this);
         imageViewProfile.setOnClickListener(this);
         buttonUploadImage.setOnClickListener(this);
 
-        //For setting up the rating by user
-        /*
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                textViewRating.setText(String.valueOf((int) ratingBar.getRating())+"/5");
-            }
-        });
-        */
+
     }
 
 
@@ -112,10 +132,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 // Get UserData object and use the values to update the UI
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 UserData userData = dataSnapshot.child(user.getUid()).getValue(UserData.class);
-                textViewName.setText(userData.firstName+" "+userData.sureName+"\n"+user.getEmail());
-                ratingBar.setRating(userData.rating);
+                textViewName.setText(userData.firstName+" "+userData.sureName+"\n"+user.getEmail()+"\n" +userData.flagList.size()+" Flags");
+
+                float avg=0;
+                float sum=0;
+                float count = 0;
+                for (Map.Entry<String, Integer> entry : userData.rating.entrySet()) {
+
+                    System.err.println(entry.getValue());
+                    sum+=entry.getValue();
+                    count++;
+                    avg = sum/count;
+
+                }
+                System.err.println(avg);
+                ratingBar.setRating(avg);
                 ratingBar.setIsIndicator(true);
-                textViewRating.setText(String.valueOf(userData.rating)+"/5");
+                textViewRating.setText((Math.round(avg * 10) / 10.0)+"/5.0");
                 Picasso.with(getApplicationContext()).load(userData.profileImageUrl).into(imageViewProfile);
             }
 
