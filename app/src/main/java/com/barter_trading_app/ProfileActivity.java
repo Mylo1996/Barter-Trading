@@ -158,7 +158,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if(v == buttonLogout){
             firebaseAuth.signOut();
-            finish();
+            finishAffinity();
             startActivity(new Intent(this,LoginActivity.class));
         }else if(v == buttonUploadImage){
             if(uploadTask != null && uploadTask.isInProgress()){
