@@ -7,5 +7,7 @@
         <item>Tools</item>
         <item>Bicycles</item>
     </string-array>
+
+    <string name="other_items"><u>View other items from this user</u></string>
 </resources>
 

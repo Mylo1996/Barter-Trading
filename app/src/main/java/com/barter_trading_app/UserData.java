@@ -12,6 +12,7 @@ public class UserData {
     public String profileImageUrl;
     public Map<String,Integer> rating = new HashMap<String,Integer>();
     public List<String> flagList = new ArrayList<String>();
+    public List<Review> reviewList = new ArrayList<Review>();
 
     public UserData(){
 

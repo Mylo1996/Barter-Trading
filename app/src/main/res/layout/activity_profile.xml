@@ -75,7 +75,7 @@
         android:layout_marginTop="50dp">
 
         <Button
-            android:id="@+id/buttonLogout"
+            android:id="@+id/buttonViewReviews"
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:text="Logout"
@@ -87,9 +87,7 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:text="Add New Item"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"/>
 
 
     </LinearLayout>

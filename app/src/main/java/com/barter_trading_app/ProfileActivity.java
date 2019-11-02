@@ -86,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         textViewRating = findViewById(R.id.textViewRating);
         ratingBar = findViewById(R.id.ratingBar);
 
-        buttonLogout = findViewById(R.id.buttonLogout);
+        buttonLogout = findViewById(R.id.buttonViewReviews);
 
         buttonAddNewItem = findViewById(R.id.buttonAddNewItem);
 
@@ -125,23 +125,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 UserData userData = dataSnapshot.child(user.getUid()).getValue(UserData.class);
                 textViewName.setText(userData.firstName+" "+userData.sureName+"\n"+user.getEmail()+"\n" +userData.flagList.size()+" Flags");
-
-                float avg=0;
-                float sum=0;
-                float count = 0;
-                for (Map.Entry<String, Integer> entry : userData.rating.entrySet()) {
-
-                    System.err.println(entry.getValue());
-                    sum+=entry.getValue();
-                    count++;
-                    avg = sum/count;
-
-                }
-                System.err.println(avg);
+                float avg = averageMap(userData.rating);
                 ratingBar.setRating(avg);
                 ratingBar.setIsIndicator(true);
                 textViewRating.setText((Math.round(avg * 10) / 10.0)+"/5.0");
-                Picasso.with(getApplicationContext()).load(userData.profileImageUrl).into(imageViewProfile);
+                Picasso.with(getApplicationContext()).load(userData.profileImageUrl).placeholder(R.mipmap.ic_launcher).into(imageViewProfile);
             }
 
             @Override
@@ -151,6 +139,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         };
         userDatabaseReference.addValueEventListener(userDataListener);
 
+    }
+
+    private float averageMap(Map<String, Integer> rating) {
+        float avg=0;
+        float sum=0;
+        float count = 0;
+        for (Map.Entry<String, Integer> entry : rating.entrySet()) {
+            sum+=entry.getValue();
+            count++;
+            avg = sum/count;
+        }
+        return avg;
     }
 
 

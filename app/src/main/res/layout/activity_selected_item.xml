@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectedProfileActivity">
+    tools:context=".SelectedItemActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,28 +14,27 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageViewSelectedProfile"
+            android:id="@+id/imageViewSelectedItem"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:scaleType="fitXY"
             app:srcCompat="@android:drawable/sym_def_app_icon" />
 
         <TextView
-            android:id="@+id/textViewSelectedName"
+            android:id="@+id/textViewSelectedItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="ItemName"
             android:textAlignment="center"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
 
-        <TextView
+        <Button
+            android:id="@+id/buttonVideoCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Current Rating"
-            android:textSize="30sp" />
+            android:text="Check out the video"/>
 
         <LinearLayout
-            android:id="@+id/layoutCurrentRating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -43,14 +42,14 @@
             android:orientation="horizontal">
 
             <RatingBar
-                android:id="@+id/ratingBarCurrentSelected"
+                android:id="@+id/ratingBarSelectedItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
                 android:stepSize="0.1" />
 
             <TextView
-                android:id="@+id/textViewSelectedCurrentRating"
+                android:id="@+id/textViewRatingSelectedItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.0/5.0"
@@ -60,44 +59,56 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/textViewSelectedItemUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="UserName"
             android:textAlignment="center"
-            android:text="Rate This User"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textViewSelectedItemDescription"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="ItemDescription"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textViewSelectedItemGetUserItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/other_items"
+
+            android:textAlignment="center"
+            android:textColor="#3F51B5"
+            android:textSize="20sp" />
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center|center_vertical"
-        android:orientation="horizontal">
-
-        <RatingBar
-            android:id="@+id/ratingBarSelected"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numStars="5"
-            android:stepSize="1" />
-        <TextView
-            android:id="@+id/textViewSelectedRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0.0/5.0"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center|center_vertical"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/buttonViewReviews"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:text="View Reviews"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonMessage"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:text="Message"
+                android:textSize="20sp"/>
+
+
+        </LinearLayout>
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/buttonFlag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Flag This User"
-        android:textSize="24sp" />
-
-
-    </LinearLayout>
-
 </RelativeLayout>

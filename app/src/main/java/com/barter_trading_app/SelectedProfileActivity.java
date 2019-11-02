@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -115,24 +116,13 @@ public class SelectedProfileActivity extends AppCompatActivity implements View.O
                 if(userData.rating.containsKey(user.getUid())) {
                     ratingBarSelected.setRating(userData.rating.get(user.getUid()));
                 }
-                avg = 0;
-                float sum = 0;
-                float count = 0;
-                for (Map.Entry<String, Integer> entry : userData.rating.entrySet()) {
-                    System.err.println("record: " + entry.getValue());
-                    sum += entry.getValue();
-                    count++;
-                    avg = sum / count;
-                }
-                System.err.println("size: " + count);
-                System.err.println("average: " + avg);
-                System.err.println("average: " + user.getUid());
+                avg = averageMap(userData.rating);
 
                 ratingBarCurrentSelected.setRating(avg);
                 ratingBarCurrentSelected.setIsIndicator(true);
                 textViewSelectedCurrentRating.setText((Math.round(avg * 10) / 10.0) + "/5.0");
 
-                Picasso.with(getApplicationContext()).load(userData.profileImageUrl).into(imageViewSelectedProfile);
+                Picasso.with(getApplicationContext()).load(userData.profileImageUrl).placeholder(R.mipmap.ic_launcher).into(imageViewSelectedProfile);
                 flagList = userData.flagList;
                 if(flagList.contains(user.getUid())){
                     buttonFlag.setEnabled(false);
@@ -145,10 +135,24 @@ public class SelectedProfileActivity extends AppCompatActivity implements View.O
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting UserData failed
+                Toast.makeText(getApplicationContext(), "Data Connection failed...", Toast.LENGTH_LONG).show();
             }
         };
         userDatabaseReference.addValueEventListener(userDataListener);
 
+    }
+
+    private float averageMap(Map<String, Integer> rating) {
+        float avg = 0;
+        float sum = 0;
+        float count = 0;
+        for (Map.Entry<String, Integer> entry : rating.entrySet()) {
+            System.err.println("record: " + entry.getValue());
+            sum += entry.getValue();
+            count++;
+            avg = sum / count;
+        }
+        return avg;
     }
 
     @Override

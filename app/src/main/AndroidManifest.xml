@@ -8,12 +8,18 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="orientation"
         android:icon="@mipmap/ic_launcher"
         android:label="Barter Trader"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".AddNewItemActivity"></activity>
+        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".VideoPlayerActivity" />
+        <activity android:name=".ReviewActivity" />
+        <activity android:name=".SelectedItemActivity" />
+        <activity android:name=".AddNewItemActivity" />
         <activity android:name=".ListItemsActivity" />
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".SelectedProfileActivity" />

@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 public class AddNewItemActivity extends AppCompatActivity  implements View.OnClickListener  {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PICK_VIDEO_REQUEST = 2;
 
     private FirebaseAuth firebaseAuth;
 
@@ -46,11 +47,15 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
     private EditText editTextItemDescription;
     private Spinner spinnerCategories;
     private Button buttonUploadNewItem;
+    private Button buttonChooseVideo;
 
     private Uri imageUri;
+    private Uri videoUri;
+    private String uploadId;
 
     private DatabaseReference itemDatabaseReference;
     private StorageReference itemImageStorageReference;
+    private StorageReference itemVideoStorageReference;
 
     private StorageTask uploadTask;
 
@@ -70,6 +75,7 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
 
         itemDatabaseReference = FirebaseDatabase.getInstance().getReference("uploadedItem");
         itemImageStorageReference = FirebaseStorage.getInstance().getReference("itemImages");
+        itemVideoStorageReference = FirebaseStorage.getInstance().getReference("itemVideos");
 
         progressDialog = new ProgressDialog(this);
 
@@ -79,7 +85,9 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
         editTextItemDescription = findViewById(R.id.editTextItemDescription);
         spinnerCategories = findViewById(R.id.spinnerCategories);
         buttonUploadNewItem = findViewById(R.id.buttonUploadNewItem);
+        buttonChooseVideo = findViewById(R.id.buttonChooseVideo);
 
+        buttonChooseVideo.setOnClickListener(this);
         buttonUploadNewItem.setOnClickListener(this);
         imageViewNewItem.setOnClickListener(this);
 
@@ -97,8 +105,17 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
             }
         }else if(v == imageViewNewItem){
             openFileChooser();
+        }else if(v == buttonChooseVideo){
+            openVideoChooser();
         }
 
+    }
+
+    private void openVideoChooser() {
+        Intent intent = new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_VIDEO_REQUEST);
     }
 
     private void openFileChooser() {
@@ -115,7 +132,10 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
             imageUri = data.getData();
             Picasso.with(this).load(imageUri).into(imageViewNewItem);
 
+        }else if(requestCode == PICK_VIDEO_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            videoUri = data.getData();
         }
+
     }
 
     private String getFileExtension(Uri uri){
@@ -137,7 +157,6 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
                             progressBarNewItemImageUpload.setProgress(0);
                         }
                     },500);
-                    Toast.makeText(getApplicationContext(), "Upload successful...", Toast.LENGTH_LONG).show();
 
                     if (taskSnapshot.getMetadata() != null) {
                         if (taskSnapshot.getMetadata().getReference() != null) {
@@ -147,11 +166,13 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
                                 public void onSuccess(Uri uri) {
                                     FirebaseUser user = firebaseAuth.getCurrentUser();
                                     String imageUrl = uri.toString();
-                                    UploadedItem newItem = new UploadedItem(user.getUid(),editTextItemName.getText().toString(),imageUrl,spinnerCategories.getTransitionName(),editTextItemDescription.getText().toString());
-                                    String uploadId = itemDatabaseReference.push().getKey();
+                                    UploadedItem newItem = new UploadedItem(user.getUid(),editTextItemName.getText().toString(),imageUrl,spinnerCategories.getSelectedItem().toString(),editTextItemDescription.getText().toString());
+                                    uploadId = itemDatabaseReference.push().getKey();
                                     itemDatabaseReference.child(uploadId).setValue(newItem);
-                                    progressDialog.dismiss();
-                                    finish();
+                                    if(videoUri == null) {
+                                        progressDialog.dismiss();
+                                        finish();
+                                    }
                                 }
                             });
                         }
@@ -174,5 +195,52 @@ public class AddNewItemActivity extends AppCompatActivity  implements View.OnCli
         }else{
             Toast.makeText(this, "No File selected...", Toast.LENGTH_LONG).show();
         }
+
+        if(videoUri != null){
+            StorageReference fileReference = itemVideoStorageReference.child(System.currentTimeMillis()+"."+getFileExtension(videoUri));
+            uploadTask = fileReference.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBarNewItemImageUpload.setProgress(0);
+                        }
+                    },500);
+
+                    if (taskSnapshot.getMetadata() != null) {
+                        if (taskSnapshot.getMetadata().getReference() != null) {
+                            Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                    String videoUrl = uri.toString();
+                                    itemDatabaseReference.child(uploadId).child("itemVideoUrl").setValue(videoUrl);
+                                    progressDialog.dismiss();
+                                    finish();
+                                }
+                            });
+                        }
+                    }
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Upload failed...", Toast.LENGTH_LONG).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressBarNewItemImageUpload.setProgress((int) progress);
+                }
+            });
+
+        }
+
     }
 }
