@@ -48,9 +48,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ImageViewH
             super(itemView);
             textViewUserName = itemView.findViewById(R.id.textViewUserName);
             textViewReview = itemView.findViewById(R.id.textViewReview);
-
-            textViewReview.setText("REVIEW");
-            textViewUserName.setText("USER");
         }
 
     }

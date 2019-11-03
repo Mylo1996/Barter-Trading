@@ -92,18 +92,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-        /*//////////////////////////////////////
-                    TEST
-        //////////////////////////////////////*/
-
-        /*
-        Intent intent = new Intent(getBaseContext(), SelectedProfileActivity.class);
-        intent.putExtra("USER_ID", "Zo5cpT7ed6WkgRbRF4rntlX9qb52");
-        startActivity(intent);
-*/
-        ////////////////////////////////////////
-
-
         buttonAddNewItem.setOnClickListener(this);
         buttonLogout.setOnClickListener(this);
         imageViewProfile.setOnClickListener(this);

@@ -13,6 +13,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     private Button buttonCategories;
     private Button buttonUserProfile;
+    private Button buttonWelcomeMessages;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -27,9 +28,11 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonCategories = findViewById(R.id.buttonCategories);
         buttonUserProfile = findViewById(R.id.buttonUserProfile);
+        buttonWelcomeMessages = findViewById(R.id.buttonWelcomeMessages);
 
         buttonUserProfile.setOnClickListener(this);
         buttonCategories.setOnClickListener(this);
+        buttonWelcomeMessages.setOnClickListener(this);
 
     }
 
@@ -40,6 +43,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(new Intent(getApplicationContext(),CategoriesActivity.class));
         }else if(v == buttonUserProfile){
             startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+        }else if(v == buttonWelcomeMessages){
+            startActivity(new Intent(getApplicationContext(),ChatActivity.class));
         }
     }
 }
