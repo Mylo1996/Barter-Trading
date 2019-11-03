@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -82,6 +83,8 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
 
         textViewSelectedItemName.setText(selectedItemKey);
 
+        textViewSelectedItemDescription.setMovementMethod(new ScrollingMovementMethod());
+
         buttonVideoCheck.setOnClickListener(this);
         textViewSelectedItemUserName.setOnClickListener(this);
         textViewSelectedItemGetUserItems.setOnClickListener(this);
@@ -107,7 +110,6 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
 
 
                 ratingBarSelectedItem.setIsIndicator(true);
-                textViewRatingSelectedItem.setText((Math.round(avg * 10) / 10.0) + "/5.0");
 
                 textViewSelectedItemDescription.setText(itemData.itemDescription);
 
@@ -138,6 +140,7 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
                         ratingBarSelectedItem.setRating(userData.rating.get(user.getUid()));
                     }
                     avg = averageMap(userData.rating);
+                    textViewRatingSelectedItem.setText((Math.round(avg * 10) / 10.0) + "/5.0");
 
                     textViewSelectedItemUserName.setText("User: " + userData.firstName + " " + userData.sureName);
                 }
