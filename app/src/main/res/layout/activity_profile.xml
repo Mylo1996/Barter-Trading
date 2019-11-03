@@ -72,14 +72,15 @@
         android:layout_centerInParent="true"
         android:gravity="center|center_vertical"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="30dp">
 
         <Button
-            android:id="@+id/buttonViewReviews"
+            android:id="@+id/buttonViewMyItems"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:text="Logout"
+            android:text="View My Items"
             android:textSize="20sp" />
+
 
         <Button
             android:layout_marginLeft="50dp"
@@ -91,6 +92,13 @@
 
 
     </LinearLayout>
+        <Button
+            android:layout_marginTop="30dp"
+            android:id="@+id/buttonLogout"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:text="Logout"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

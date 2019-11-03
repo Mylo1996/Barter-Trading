@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barter_trading_app.Fragments.ChatFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -179,7 +180,9 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
             intent.putExtra("USER_ID", itemData.itemUserId);
             startActivity(intent);
         }else if(v == buttonMessage){
-
+            Intent intent = new Intent(getBaseContext(), MessageActivity.class);
+            intent.putExtra("USER_ID", itemData.itemUserId);
+            startActivity(intent);
         }else if(v == textViewSelectedItemUserName){
             Intent intent = new Intent(getBaseContext(), SelectedProfileActivity.class);
             intent.putExtra("USER_ID", itemData.itemUserId);

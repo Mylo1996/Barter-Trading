@@ -13,6 +13,7 @@ public class UploadedItem {
     public String itemDescription;
     public String itemKey;
     public String itemVideoUrl;
+    public boolean agreed;
 
     public Map<String,Integer> reviews = new HashMap<String,Integer>();
 
@@ -25,6 +26,7 @@ public class UploadedItem {
         this.itemImageUrl = itemImageUrl;
         this.itemCategory = itemCategory;
         this.itemDescription = itemDescription;
+        this.agreed = false;
     }
 
     @Exclude

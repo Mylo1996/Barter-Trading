@@ -55,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button buttonLogout;
 
     private Button buttonAddNewItem;
+    private Button buttonViewMyItems;
 
     private DatabaseReference userDatabaseReference;
     private StorageReference userImageStorageReference;
@@ -86,12 +87,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         textViewRating = findViewById(R.id.textViewRating);
         ratingBar = findViewById(R.id.ratingBar);
 
-        buttonLogout = findViewById(R.id.buttonViewReviews);
+        buttonLogout = findViewById(R.id.buttonLogout);
 
         buttonAddNewItem = findViewById(R.id.buttonAddNewItem);
+        buttonViewMyItems = findViewById(R.id.buttonViewMyItems);
 
 
-
+        buttonViewMyItems.setOnClickListener(this);
         buttonAddNewItem.setOnClickListener(this);
         buttonLogout.setOnClickListener(this);
         imageViewProfile.setOnClickListener(this);
@@ -158,6 +160,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             openFileChooser();
         }else if(v == buttonAddNewItem){
             startActivity(new Intent(getApplicationContext(),AddNewItemActivity.class));
+        }else if(v == buttonViewMyItems){
+            Intent intent = new Intent(getBaseContext(), ListItemsActivity.class);
+            intent.putExtra("USER_ID", firebaseAuth.getCurrentUser().getUid());
+            startActivity(intent);
         }
 
     }

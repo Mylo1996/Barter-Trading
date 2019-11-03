@@ -11,11 +11,14 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ public class ListItemsActivity extends AppCompatActivity implements ItemAdapter.
     private DatabaseReference itemDatabaseReference;
     private List<UploadedItem> itemList;
 
+
     private String category;
     private String userID;
 
@@ -39,6 +43,7 @@ public class ListItemsActivity extends AppCompatActivity implements ItemAdapter.
 
         category = getIntent().getStringExtra("CATEGORY");
         userID = getIntent().getStringExtra("USER_ID");
+
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -54,6 +59,7 @@ public class ListItemsActivity extends AppCompatActivity implements ItemAdapter.
 
         itemAdapter.setOnItemClickListener(ListItemsActivity.this);
 
+
         itemDatabaseReference = FirebaseDatabase.getInstance().getReference("uploadedItem");
 
         itemDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -67,11 +73,11 @@ public class ListItemsActivity extends AppCompatActivity implements ItemAdapter.
 
                     uploadedItem.setItemKey(postSnapShot.getKey());
                     System.err.println(category);
-                    if(category != null && category.equals( uploadedItem.itemCategory)){
+                    if(category != null && category.equals( uploadedItem.itemCategory ) && !uploadedItem.agreed){
                         itemList.add(uploadedItem);
                     }
 
-                    if(userID != null && userID.equals( uploadedItem.itemUserId)){
+                    if(userID != null && userID.equals( uploadedItem.itemUserId) && !uploadedItem.agreed){
                         itemList.add(uploadedItem);
                     }
 
@@ -99,6 +105,15 @@ public class ListItemsActivity extends AppCompatActivity implements ItemAdapter.
         Intent intent = new Intent(getBaseContext(), SelectedItemActivity.class);
         intent.putExtra("SELECTED_ITEM_KEY", selectedKey);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onAgreedItemClick(int position) {
+
+        UploadedItem selectedItem = itemList.get(position);
+        final String selectedKey = selectedItem.getItemKey();
+        itemDatabaseReference.child(selectedKey).child("agreed").setValue(true);
 
     }
 }

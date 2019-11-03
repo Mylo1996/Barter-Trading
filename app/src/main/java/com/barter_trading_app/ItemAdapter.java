@@ -1,12 +1,17 @@
 package com.barter_trading_app;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,10 +24,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolde
     private Context mContext;
     private List<UploadedItem> itemsList;
     private OnItemClickListener mListener;
+    private FirebaseUser fuser;
 
     public ItemAdapter(Context context, List<UploadedItem> itemslist){
         mContext = context;
         itemsList = itemslist;
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @NonNull
@@ -44,7 +51,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolde
         return itemsList.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
+    public class ImageViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         public TextView textViewItemName;
         public ImageView imageViewItem;
 
@@ -54,6 +61,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolde
             imageViewItem = itemView.findViewById(R.id.imageViewItem);
 
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         @Override
@@ -65,10 +73,35 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ImageViewHolde
                 }
             }
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            if(itemsList.get(getAdapterPosition()).itemUserId.equals(fuser.getUid())) {
+                MenuItem agreeItem = menu.add(Menu.NONE, 1, 1, "Set Agreed");
+                agreeItem.setOnMenuItemClickListener(this);
+            }
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+
+            if(mListener != null){
+                int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        switch (item.getItemId()) {
+                            case 1:
+                                mListener.onAgreedItemClick(position);
+                                return true;
+                        }
+                    }
+            }
+            return false;
+        }
     }
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+        void onAgreedItemClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
