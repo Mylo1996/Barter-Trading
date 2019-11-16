@@ -129,17 +129,13 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
         ValueEventListener userDataEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(itemData !=null) {
                     UserData userData = dataSnapshot.child(itemData.itemUserId).getValue(UserData.class);
                     if (userData.rating != null) {
                         rating = userData.rating;
-
-                    }
-                    if (userData.rating.containsKey(user.getUid())) {
-                        ratingBarSelectedItem.setRating(userData.rating.get(user.getUid()));
                     }
                     avg = averageMap(userData.rating);
+                    ratingBarSelectedItem.setRating(avg);
                     textViewRatingSelectedItem.setText((Math.round(avg * 10) / 10.0) + "/5.0");
 
                     textViewSelectedItemUserName.setText("User: " + userData.firstName + " " + userData.sureName);
