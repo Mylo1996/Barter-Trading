@@ -38,9 +38,11 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
     private UserAdapter userAdapter;
 
     private List<UserData> users;
+    private List<String> usersID;
     private List<String> userList;
     private FirebaseUser fuser;
-    private DatabaseReference reference;
+    private DatabaseReference referenceChat;
+    private DatabaseReference referenceUser;
 
 
     @Override
@@ -55,10 +57,16 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
         userList = new ArrayList<>();
+        return view;
+    }
 
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
+    @Override
+    public void onStart() {
+        super.onStart();
 
-        reference.addValueEventListener(new ValueEventListener() {
+        referenceChat = FirebaseDatabase.getInstance().getReference("Chats");
+
+        referenceChat.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userList.clear();
@@ -71,24 +79,23 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
                         userList.add(chat.sender);
                     }
                 }
-                
                 readChats();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                readChats();
             }
         });
 
-        return view;
     }
 
     private void readChats() {
         users = new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("userdata");
+        usersID = new ArrayList<>();
+        referenceUser = FirebaseDatabase.getInstance().getReference("userdata");
 
-        reference.addValueEventListener(new ValueEventListener() {
+        referenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 users.clear();
@@ -97,26 +104,13 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
                     String userId = snapshot.getKey();
                     for(String userid : userList){
                         if(userId.equals(userid)){
-                            if(users.size() != 0){
-                                List<UserData> tempUsers = new ArrayList<>();
-                                tempUsers.addAll(users);
-                                for(UserData user1 : tempUsers){
-                                    String user1Id = "";
-                                    for(DataSnapshot snapshot1 : dataSnapshot.getChildren()){
-                                        if(snapshot1.child("profileImageUrl").getValue().equals(user1.profileImageUrl)){
-                                            user1Id = snapshot1.getKey();
-                                        }
-                                    }
-                                    if(!userId.equals(user1Id)){
-                                        users.add(user1);
-                                    }
-                                }
-                            }else{
-                                users.add(user);
-                            }
+                            users.add(user);
+                            usersID.add(userId);
                         }
                     }
                 }
+
+
 
                 userAdapter = new UserAdapter(getContext(),removeDuplicates(users));
                 userAdapter.setOnUserClickListener(ChatFragment.this);
@@ -153,7 +147,8 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
 
     @Override
     public void onItemClick(int position) {
-        final String selectedKey = userList.get(position);
+        System.err.println(position);
+        final String selectedKey = removeDuplicates(usersID).get(position);
         Intent intent = new Intent(getContext(), MessageActivity.class);
         intent.putExtra("USER_ID", selectedKey);
         startActivity(intent);

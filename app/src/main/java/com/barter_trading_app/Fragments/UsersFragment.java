@@ -96,7 +96,6 @@ public class UsersFragment extends Fragment implements UserAdapter.OnUserClickLi
     }
 
 
-
     @Override
     public void onItemClick(int position) {
         final String selectedKey = userIdList.get(position);
