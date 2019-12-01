@@ -155,6 +155,8 @@ public class SelectedProfileActivity extends AppCompatActivity implements View.O
         return avg;
     }
 
+
+    // increment the flag count of the selected user which means that the user is reliable
     @Override
     public void onClick(View v) {
         if(v == buttonFlag && buttonFlag.isEnabled()){

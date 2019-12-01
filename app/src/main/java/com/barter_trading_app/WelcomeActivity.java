@@ -42,8 +42,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             //Start CategoriesActivity
             startActivity(new Intent(getApplicationContext(),CategoriesActivity.class));
         }else if(v == buttonUserProfile){
+            //Start ProfileActivity
             startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
         }else if(v == buttonWelcomeMessages){
+            //Start ChatActivity
             startActivity(new Intent(getApplicationContext(),ChatActivity.class));
         }
     }

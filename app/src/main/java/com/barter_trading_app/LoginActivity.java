@@ -35,8 +35,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        // Check if we are logged in
         if(firebaseAuth.getCurrentUser() != null){
+            // If we are logged in, start the WelcomeActivity
             finish();
             startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
         }
@@ -59,12 +60,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(v == buttonLogin){
             userLogin();
         }else if(v == textViewSignUp){
+            // start MainActivity (Register page)
             finish();
             startActivity(new Intent(this,MainActivity.class));
         }
 
     }
 
+    // Try to log in with the given credentials
     private void userLogin() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();

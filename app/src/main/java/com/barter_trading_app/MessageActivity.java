@@ -69,7 +69,6 @@ public class MessageActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,12 +109,13 @@ public class MessageActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(getApplicationContext(), "Data Connection failed...", Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
+    // Create a new record in the "Chats" data table
     private void sendMessage(String sender,String receiver, String message){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -129,6 +129,7 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
+    // Get all the messages from the "Chats" data table from the selected user
     private void readMessage(final String myid, final String userid, final String imageurl){
         chats = new ArrayList<>();
         chatDatabaseReference = FirebaseDatabase.getInstance().getReference("Chats");
@@ -148,7 +149,7 @@ public class MessageActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(getApplicationContext(), "Data Connection failed...", Toast.LENGTH_LONG).show();
             }
         });
     }

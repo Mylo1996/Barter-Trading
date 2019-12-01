@@ -38,6 +38,10 @@ public class ChatActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    // the ViewPagerAdapter uses a list of Fragments to show the Tabs on the ChatActivity
+    // we have two fragments:
+    //  Users: Show all the users in the database
+    //  Chats: Show all the users that we have already chatted
     class ViewPagerAdapter extends FragmentPagerAdapter{
 
         private ArrayList<Fragment>  fragments;

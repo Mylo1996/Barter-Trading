@@ -97,6 +97,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    // Add a new review to the selected user's profile
     @Override
     public void onClick(View v) {
         if (v == buttonAddNewReview){

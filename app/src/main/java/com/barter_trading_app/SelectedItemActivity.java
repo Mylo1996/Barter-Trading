@@ -107,8 +107,6 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
 
                 textViewSelectedItemName.setText(itemData.itemName);
 
-
-
                 ratingBarSelectedItem.setIsIndicator(true);
 
                 textViewSelectedItemDescription.setText(itemData.itemDescription);
@@ -134,6 +132,8 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
                     if (userData.rating != null) {
                         rating = userData.rating;
                     }
+
+                    // we count the average rating of the selected item's owner
                     avg = averageMap(userData.rating);
                     ratingBarSelectedItem.setRating(avg);
                     textViewRatingSelectedItem.setText((Math.round(avg * 10) / 10.0) + "/5.0");
@@ -147,7 +147,6 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Getting UserData failed
                 Toast.makeText(getApplicationContext(), "Data Connection failed...", Toast.LENGTH_LONG).show();
-
             }
         };
         itemDatabaseReference.addValueEventListener(itemDataListener);
@@ -155,6 +154,8 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+
+    // Count an average value from a Map
     private float averageMap(Map<String, Integer> rating) {
         float avg=0;
         float sum=0;
@@ -171,22 +172,27 @@ public class SelectedItemActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if(v == textViewSelectedItemGetUserItems){
+            // start ListItemActivity with the User ID of the item's owner
             Intent intent = new Intent(getBaseContext(), ListItemsActivity.class);
             intent.putExtra("USER_ID", itemData.itemUserId);
             startActivity(intent);
         }else if(v == buttonViewReviews){
+            // start ReviewActivity with the User ID of the item's owner
             Intent intent = new Intent(getBaseContext(), ReviewActivity.class);
             intent.putExtra("USER_ID", itemData.itemUserId);
             startActivity(intent);
         }else if(v == buttonMessage){
+            // start MessageActivity with the User ID of the item's owner
             Intent intent = new Intent(getBaseContext(), MessageActivity.class);
             intent.putExtra("USER_ID", itemData.itemUserId);
             startActivity(intent);
         }else if(v == textViewSelectedItemUserName){
+            // start SelectedProfileActivity with the User ID of the item's owner
             Intent intent = new Intent(getBaseContext(), SelectedProfileActivity.class);
             intent.putExtra("USER_ID", itemData.itemUserId);
             startActivity(intent);
         }else if(v == buttonVideoCheck){
+            // start VideoPlayerActivity with the Video URL of the item
             Intent intent = new Intent(getBaseContext(), VideoPlayerActivity.class);
             System.err.println(itemData.itemVideoUrl);
             intent.putExtra("VIDEO_URL", itemData.itemVideoUrl);

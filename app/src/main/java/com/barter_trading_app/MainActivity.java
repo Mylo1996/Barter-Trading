@@ -45,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        // Check if we are logged in
         if(firebaseAuth.getCurrentUser() != null){
+            // If we are logged in, start the WelcomeActivity
             finish();
             startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
         }
@@ -71,13 +73,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v == buttonRegister){
             registerUser();
         }else if(v == textViewSignIn){
-            // open LoginActivity
+            // start LoginActivity
             finish();
             startActivity(new Intent(this,LoginActivity.class));
         }
 
     }
 
+    // Register a new user and create a new record in the "userdata" data table to store the user details.
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();

@@ -125,6 +125,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting UserData failed
+                Toast.makeText(getApplicationContext(), "Data Connection failed...", Toast.LENGTH_LONG).show();
             }
         };
         userDatabaseReference.addValueEventListener(userDataListener);
@@ -157,10 +158,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 uploadFile();
             }
         }else if(v == imageViewProfile){
+            // start a fileChooser activity to select a Profile picture
             openFileChooser();
         }else if(v == buttonAddNewItem){
+            // start AddNewItemActivity
             startActivity(new Intent(getApplicationContext(),AddNewItemActivity.class));
         }else if(v == buttonViewMyItems){
+            // start the ListItemsActivity with the user's User ID to see it's uploaded items
             Intent intent = new Intent(getBaseContext(), ListItemsActivity.class);
             intent.putExtra("USER_ID", firebaseAuth.getCurrentUser().getUid());
             startActivity(intent);
@@ -168,12 +172,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    // Get the extension of the selected image file
     private String getFileExtension(Uri uri){
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    // uploads the selected profile picture to the database
     private void uploadFile() {
         if(imageUri != null){
             StorageReference fileReference = userImageStorageReference.child(System.currentTimeMillis()+"."+getFileExtension(imageUri));
@@ -237,7 +243,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             imageUri = data.getData();
             Picasso.with(this).load(imageUri).into(imageViewProfile);
-
         }
     }
 }

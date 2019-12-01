@@ -12,6 +12,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class VideoPlayerActivity extends AppCompatActivity {
 
+    // a plain Video player activity with a videoView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

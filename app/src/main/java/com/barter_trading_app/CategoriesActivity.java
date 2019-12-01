@@ -32,6 +32,8 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    // Open up the ListItemsActivity with the chosen category filter
+    // Put the category to the starter intent as an Extra to let the next Activity know the filter
     @Override
     public void onClick(View v) {
         if(v == buttonGadgets){
@@ -42,17 +44,14 @@ public class CategoriesActivity extends AppCompatActivity implements View.OnClic
             Intent intent = new Intent(getBaseContext(), ListItemsActivity.class);
             intent.putExtra("CATEGORY", "Clothes");
             startActivity(intent);
-
         }else if(v == buttonTools){
             Intent intent = new Intent(getBaseContext(), ListItemsActivity.class);
             intent.putExtra("CATEGORY", "Tools");
             startActivity(intent);
-
         }else if(v == buttonBicycles){
             Intent intent = new Intent(getBaseContext(), ListItemsActivity.class);
             intent.putExtra("CATEGORY", "Bicycles");
             startActivity(intent);
-
         }
     }
 }
